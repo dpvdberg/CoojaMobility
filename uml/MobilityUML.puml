@@ -1,0 +1,72 @@
+@startuml
+left to right direction
+
+package "Cooja" #DDDDDD {
+    abstract VisPlugin
+    class Simulation
+    interface Mote
+}
+
+package "CoojaMobility" {
+    abstract CoojaMobilityPlugin
+    abstract MobilityModel {
+        Simulation simulation
+        void step()
+    }
+    abstract GroupMobilityModel {
+        List<MoteGroup> Group
+    }
+    abstract IndividualMobilityModel {
+        void moveMote(mote : Mote)
+    }
+
+    abstract RandomIMobilityModel
+    abstract TemporalIMobilityModel
+    abstract ReferencePointMobilityModel
+
+    abstract DivisionMobilityModel {
+        List<Area> areas
+    }
+
+    VisPlugin <|-- CoojaMobilityPlugin
+    Simulation "1" <-- MobilityModel
+    Mote ... MobilityModel
+
+    CoojaMobilityPlugin --> "*" MobilityModel
+    MobilityModel <|-- GroupMobilityModel
+    MobilityModel <|-- IndividualMobilityModel
+    MobilityModel <|-- DivisionMobilityModel
+
+    ' INDIVIDUAL MOBILITY MODELS
+    IndividualMobilityModel <|-- RandomIMobilityModel
+    IndividualMobilityModel <|-- TemporalIMobilityModel
+
+    ' INDIVIDUAL RANDOM MOBILITY MODELS
+    RandomIMobilityModel <|-- RandomWalkMobilityModel
+    RandomIMobilityModel <|-- RandomWaypointMobilityModel
+    RandomIMobilityModel <|-- RandomDirectionMobilityModel
+
+    ' INDIVIDUAL TEMPORAL MOBILITY MODELS
+    TemporalIMobilityModel <|-- GaussMarkov
+    TemporalIMobilityModel <|-- SmoothRandom
+
+    ' GROUP MOBILITY MODELS
+    GroupMobilityModel <|-- ReferencePointMobilityModel
+
+    class NormalRPMobilityModel
+    class ColumnRPMobilityModel
+    class NormadicRPMobilityModel
+    class PursueRPMobilityModel
+    class StructuralRPMobilityModel
+
+    ReferencePointMobilityModel <|-- NormalRPMobilityModel
+    ReferencePointMobilityModel <|-- ColumnRPMobilityModel
+    ReferencePointMobilityModel <|-- NormadicRPMobilityModel
+    ReferencePointMobilityModel <|-- PursueRPMobilityModel
+    ReferencePointMobilityModel <|-- StructuralRPMobilityModel
+
+    ' DIVISION MOBILITY MODELS
+    DivisionMobilityModel <|-- AreaGraphMobilityModel
+    DivisionMobilityModel <|-- CosmosMobilityModel
+}
+@enduml
