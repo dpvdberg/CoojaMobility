@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Cooja" level="project" />
     <orderEntry type="library" name="CoojaLibs" level="project" />
+    <orderEntry type="library" name="Cooja" level="project" />
   </component>
 </module>
