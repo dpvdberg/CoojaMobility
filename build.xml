@@ -21,7 +21,7 @@
 
   <target name="compile" depends="init">
     <mkdir dir="${build}"/>
-    <javac srcdir="${src}" destdir="${build}" debug="on">
+    <javac target="8" srcdir="${src}" destdir="${build}" debug="on">
       <classpath>
         <pathelement path="."/>
         <pathelement location="${cooja_jar}"/>
@@ -46,5 +46,4 @@
   <target name="copy" depends="init">
     <mkdir dir="${build}"/>
   </target>
-
 </project>

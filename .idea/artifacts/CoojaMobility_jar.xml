@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="CoojaMobility:jar">
+    <output-path>$PROJECT_DIR$/lib</output-path>
+    <root id="archive" name="CoojaMobility.jar">
+      <element id="module-output" name="CoojaMobility" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../dist/cooja.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../lib/log4j.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../lib/jsyntaxpane.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../lib/jdom.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../lib/swingx-all-1.6.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
