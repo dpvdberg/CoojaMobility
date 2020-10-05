@@ -1,5 +1,6 @@
-package models.individual.random.models;
+package models.individual.random;
 
+import gui.models.individual.random.RandomWalkMobilityModelGUI;
 import models.individual.random.RandomIMobilityModel;
 import org.contikios.cooja.Simulation;
 import utils.MobilityMote;
@@ -8,11 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RandomWalkMobilityModel extends RandomIMobilityModel {
-    private double speedMin = 10.0;
-    private double speedMax = 1.0;
-    private double interval = 1.0;
-    private boolean timeBased = true;
-    private JSpinner maxOffsetSpinner = new JSpinner();
+    private final RandomWalkMobilityModelGUI ui = new RandomWalkMobilityModelGUI(1.0, 10.0, 1.0, true);
 
     public RandomWalkMobilityModel(Simulation simulation) {
         super(simulation);
@@ -25,23 +22,16 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
 
     @Override
     public Component getModelSettingsComponent() {
-        JPanel panel = new JPanel();
-
-//        SpinnerNumberModel model = new SpinnerNumberModel(maxOffset, 0, 1000.0, 1);
-//        maxOffsetSpinner.setModel(model);
-//        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(maxOffsetSpinner);
-//        maxOffsetSpinner.setEditor(editor);
-
-        return panel;
+        return ui.getMainPanel();
     }
 
     @Override
     protected void moveMote(MobilityMote mote) {
-        double speed = random.nextDouble() * (speedMax - speedMin) + speedMin;
+        double speed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
         double direction = random.nextDouble() * 2 * Math.PI;
 
-        if (timeBased) {
-            double dist = speed * interval;
+        if (ui.getTimeBased()) {
+            double dist = speed * ui.getUpdateInterval();
             double dx = dist * Math.sin(direction);
             double dy = dist * Math.sin(direction);
             mote.translate(dx, dy);

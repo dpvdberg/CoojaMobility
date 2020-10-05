@@ -1,6 +1,6 @@
 package models;
 
-import models.individual.random.models.RandomWalkMobilityModel;
+import models.individual.random.RandomWalkMobilityModel;
 import org.contikios.cooja.Simulation;
 
 import java.util.ArrayList;

@@ -15,6 +15,7 @@ public abstract class MobilityModel {
     private final Simulation simulation;
     private long period;
     private final List<MobilityMote> motes;
+    private boolean registered = false;
 
     public MobilityModel(Simulation simulation) {
         this.simulation = simulation;
@@ -27,11 +28,20 @@ public abstract class MobilityModel {
     public abstract String getMobilityModelName();
 
     public void register() {
+        registered = true;
         simulation.invokeSimulationThread(() -> simulation.scheduleEvent(stepEvent, simulation.getSimulationTime() + period));
+    }
+
+    public void unregister() {
+        registered = false;
+        simulation.clearEvents();
     }
 
     private final TimeEvent stepEvent = new TimeEvent(0) {
         public void execute(long t) {
+            if (!registered) {
+                return;
+            }
             simulation.scheduleEvent(this, simulation.getSimulationTime() + period);
 
             step();
@@ -40,6 +50,10 @@ public abstract class MobilityModel {
 
     public Simulation getSimulation() {
         return simulation;
+    }
+
+    public void setPeriod(long period) {
+        this.period = period;
     }
 
     public long getPeriod() {

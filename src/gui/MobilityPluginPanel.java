@@ -16,17 +16,26 @@ public class MobilityPluginPanel {
     private JButton btnStart;
     private JButton btnStop;
     private JPanel mobilityModelSettings;
+    private JSlider updateIntervalSlider;
     private MobilityModel activeModel;
 
     private TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+
+    private long getPeriod() {
+        // period in mobility models is in nanoseconds
+        return updateIntervalSlider.getValue() * 1000;
+    }
 
     public MobilityPluginPanel(Simulation simulation) {
         this.simulation = simulation;
 
         modelComboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                activeModel = (MobilityModel) modelComboBox.getSelectedItem();
-                assert activeModel != null;
+                MobilityModel selectedModel = (MobilityModel) modelComboBox.getSelectedItem();
+                assert selectedModel != null;
+                selectedModel.setPeriod(getPeriod());
+                activeModel = selectedModel;
+
                 String title = activeModel.getMobilityModelName() + " settings";
                 titledBorder.setTitle(title);
                 mobilityModelSettings.setBorder(titledBorder);
@@ -37,10 +46,22 @@ public class MobilityPluginPanel {
             }
         });
 
+        updateIntervalSlider.addChangeListener(e -> activeModel.setPeriod(getPeriod()));
+
         modelComboBox.setModel(new DefaultComboBoxModel<>());
         for (MobilityModel model : MobilityModelFactory.buildModels(simulation)) {
             modelComboBox.addItem(model);
         }
+        btnStart.addActionListener(e -> start());
+        btnStart.addActionListener(e -> stop());
+    }
+
+    private void start() {
+        activeModel.register();
+    }
+
+    private void stop() {
+        activeModel.unregister();
     }
 
     public JPanel getMainPanel() {
