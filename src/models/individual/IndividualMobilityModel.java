@@ -1,7 +1,6 @@
-package mobility.individual;
+package models.individual;
 
-import mobility.MobilityModel;
-import org.contikios.cooja.Mote;
+import models.MobilityModel;
 import org.contikios.cooja.Simulation;
 import utils.MobilityMote;
 

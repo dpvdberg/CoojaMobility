@@ -1,11 +1,11 @@
-package mobility;
+package models;
 
 import org.apache.log4j.Logger;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.TimeEvent;
 import utils.MobilityMote;
 
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,9 +50,7 @@ public abstract class MobilityModel {
         return motes;
     }
 
-    public void drawModelSettings() {
-
-    }
+    public abstract Component getModelSettingsComponent();
 
     public String toString() {
         return getMobilityModelName();

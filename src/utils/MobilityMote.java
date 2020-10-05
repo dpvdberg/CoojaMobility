@@ -1,6 +1,5 @@
 package utils;
 
-import mobility.MobilityModel;
 import org.contikios.cooja.Mote;
 import org.contikios.cooja.MoteInterfaceHandler;
 import org.contikios.cooja.MoteType;

@@ -1,6 +1,6 @@
-package mobility.individual.random;
+package models.individual.random;
 
-import mobility.individual.IndividualMobilityModel;
+import models.individual.IndividualMobilityModel;
 import org.contikios.cooja.Simulation;
 
 import java.util.Random;

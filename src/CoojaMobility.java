@@ -1,3 +1,4 @@
+import gui.MobilityPluginPanel;
 import org.apache.log4j.Logger;
 import org.contikios.cooja.*;
 

@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Cooja">
+  <library name="cooja">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../../dist/cooja.jar!/" />
     </CLASSES>
