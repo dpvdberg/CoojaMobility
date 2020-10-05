@@ -8,7 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RandomWalkMobilityModel extends RandomIMobilityModel {
-    private double maxOffset = 10.0;
+    private double speedMin = 10.0;
+    private double speedMax = 1.0;
+    private double interval = 1.0;
+    private boolean timeBased = true;
     private JSpinner maxOffsetSpinner = new JSpinner();
 
     public RandomWalkMobilityModel(Simulation simulation) {
@@ -34,8 +37,17 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
 
     @Override
     protected void moveMote(MobilityMote mote) {
-        double dx = random.nextDouble() * maxOffset;
-        double dy = random.nextDouble() * maxOffset;
-        mote.translate(dx, dy);
+        double speed = random.nextDouble() * (speedMax - speedMin) + speedMin;
+        double direction = random.nextDouble() * 2 * Math.PI;
+
+        if (timeBased) {
+            double dist = speed * interval;
+            double dx = dist * Math.sin(direction);
+            double dy = dist * Math.sin(direction);
+            mote.translate(dx, dy);
+        } else {
+
+        }
+
     }
 }
