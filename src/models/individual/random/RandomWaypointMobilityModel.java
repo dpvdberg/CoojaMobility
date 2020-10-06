@@ -1,16 +1,15 @@
 package models.individual.random;
 
-import gui.models.individual.random.RandomWaypointMobilityModelGui;
+import gui.models.individual.random.RandomWaypointMobilityModelGUI;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.interfaces.Position;
 import utils.MobilityMote;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Random;
 
 public class RandomWaypointMobilityModel extends RandomIMobilityModel {
-    private final RandomWaypointMobilityModelGui ui = new RandomWaypointMobilityModelGui(100, 100, 1.0, 10, 5);
+    private final RandomWaypointMobilityModelGUI ui = new RandomWaypointMobilityModelGUI(100, 100, 1.0, 10, 5);
     private final HashMap<MobilityMote, RandomWaypointInfo> moteInfo = new HashMap<>();
     private static final double SECONDS = Math.pow(10, 6);
 

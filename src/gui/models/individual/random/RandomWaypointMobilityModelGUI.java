@@ -4,15 +4,15 @@ import gui.models.SimulationArea;
 
 import javax.swing.*;
 
-public class RandomWaypointMobilityModelGui {
+public class RandomWaypointMobilityModelGUI {
     private JPanel mainPanel;
     private JPanel simulationArea;
     private JSpinner speedMinSpinner;
     private JSpinner speedMaxSpinner;
     private JSpinner pauseTimeSpinner;
-    private SimulationArea area;
+    private final SimulationArea area;
 
-    public RandomWaypointMobilityModelGui(double areaLength, double areaWidth, double speedMin, double speedMax, double pauseTime) {
+    public RandomWaypointMobilityModelGUI(double areaLength, double areaWidth, double speedMin, double speedMax, double pauseTime) {
         area = new SimulationArea(areaLength, areaWidth);
         simulationArea.add(area.getMainPanel());
 

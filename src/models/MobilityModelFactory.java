@@ -1,5 +1,6 @@
 package models;
 
+import models.individual.random.RandomDirectionMobilityModel;
 import models.individual.random.RandomWalkMobilityModel;
 import models.individual.random.RandomWaypointMobilityModel;
 import org.contikios.cooja.Simulation;
@@ -13,6 +14,7 @@ public class MobilityModelFactory {
             {
                 add(new RandomWalkMobilityModel(simulation));
                 add(new RandomWaypointMobilityModel(simulation));
+                add(new RandomDirectionMobilityModel(simulation));
             }
         };
     }
