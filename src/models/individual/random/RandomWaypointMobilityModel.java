@@ -1,27 +1,26 @@
 package models.individual.random;
 
 import gui.models.individual.random.RandomWalkMobilityModelGUI;
-import models.individual.random.RandomIMobilityModel;
 import org.contikios.cooja.Simulation;
 import utils.MobilityMote;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Vector;
 
-public class RandomWalkMobilityModel extends RandomIMobilityModel {
+public class RandomWaypointMobilityModel extends RandomIMobilityModel {
     private final RandomWalkMobilityModelGUI ui = new RandomWalkMobilityModelGUI(1.0, 10.0, 1.0, true);
     private final HashMap<MobilityMote, Double> moteSpeed = new HashMap<>();
-    private final HashMap<MobilityMote, Double> moteDirec = new HashMap<>();
+    private final HashMap<MobilityMote, Vector<Double>> moteDest = new HashMap<>();
     private int updates = 0;
 
-    public RandomWalkMobilityModel(Simulation simulation) {
+    public RandomWaypointMobilityModel(Simulation simulation) {
         super(simulation);
     }
 
     @Override
     public String getMobilityModelName() {
-        return "Random walk";
+        return "Random Waypoint";
     }
 
     @Override
