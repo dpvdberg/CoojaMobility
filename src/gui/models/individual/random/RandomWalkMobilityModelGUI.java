@@ -1,5 +1,6 @@
 package gui.models.individual.random;
 
+import gui.MobilityPluginPanel;
 import models.individual.random.RandomWalkMobilityModel;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class RandomWalkMobilityModelGUI {
     private JSpinner updateIntervalSpinner;
     private JRadioButton distanceBased;
     private JRadioButton timeBased;
+    private JButton btnTestShowGroups;
 
     private static final double updateModelMaxTime = 10.0;
     private static final double updateModelMaxDistance = 500.0;
@@ -44,6 +46,10 @@ public class RandomWalkMobilityModelGUI {
 
         timeBased.setSelected(timeBasedUpdates);
         distanceBased.setSelected(!timeBasedUpdates);
+
+        btnTestShowGroups.addActionListener(e -> {
+            MobilityPluginPanel.showGroupPanel();
+        });
     }
 
     public double getSpeedMin() {

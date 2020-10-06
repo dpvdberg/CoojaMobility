@@ -32,6 +32,11 @@ public class MobilityMote implements Mote {
         moveTo(pos.getXCoordinate() + x, pos.getYCoordinate() + y);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Mote #%d (%s)", mote.getID(), mote.getType().getIdentifier());
+    }
+
     //region Decorator delegates
     @Override
     public int getID() {
