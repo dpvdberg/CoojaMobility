@@ -16,21 +16,15 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
         private double moteSpeed;
         private double moteDirec;
         private int moteUpdates = 0;
-
-        public RandomWalkInfo(double moteSpeed, double moteDirec) {
-            this.moteSpeed = moteSpeed;
-            this.moteDirec = moteDirec;
-        }
     }
 
     public RandomWalkMobilityModel(Simulation simulation) {
         super(simulation);
 
         for (MobilityMote mote : getMotes()) {
-            double speed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
-            double direction = random.nextDouble() * 2 * Math.PI;
-
-            moteInfo.put(mote, new RandomWalkInfo(speed, direction));
+            RandomWalkInfo info =  new RandomWalkInfo();
+            chooseNewDirection(info);
+            moteInfo.put(mote,info);
         }
     }
 
@@ -52,14 +46,14 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
             //If amount of time passed (in microseconds) is the same as update interval in microseconds
             if (info.moteUpdates * getPeriod() >= ui.getUpdateInterval() * SECONDS) {
                 //update speed and direction of mote
-                chooseNewDirection(mote);
+                chooseNewDirection(info);
 
                 info.moteUpdates = 0;
             }
         } else {
             //if travelled distance is >= update interval distance
             if (info.moteUpdates * getPeriod() / SECONDS * info.moteSpeed >= ui.getUpdateInterval()) {
-                chooseNewDirection(mote);
+                chooseNewDirection(info);
 
                 info.moteUpdates = 0;
             }
@@ -75,8 +69,7 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
         info.moteUpdates++;
     }
 
-    private void chooseNewDirection(MobilityMote mote) {
-        RandomWalkInfo info = moteInfo.get(mote);
+    private void chooseNewDirection(RandomWalkInfo info) {
         info.moteSpeed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
         info.moteDirec = random.nextDouble() * 2 * Math.PI;
     }
