@@ -12,8 +12,11 @@ public class RandomWalkMobilityModelGUI {
     private JRadioButton distanceBased;
     private JRadioButton timeBased;
 
+    private static final double updateModelMaxTime = 10.0;
+    private static final double updateModelMaxDistance = 500.0;
+
     public RandomWalkMobilityModelGUI(double speedMin, double speedMax, double updateInterval, boolean timeBasedUpdates) {
-        SpinnerNumberModel minModel = new SpinnerNumberModel(speedMin, 1.0, 100.0, 1);
+        SpinnerNumberModel minModel = new SpinnerNumberModel(speedMin, 1.0, speedMax, 1);
         speedMinSpinner.setModel(minModel);
         speedMaxSpinner.setModel(new SpinnerNumberModel(speedMax, 1.0, 100.0, 1));
 
@@ -22,25 +25,25 @@ public class RandomWalkMobilityModelGUI {
             minModel.setMaximum((double) speedMaxSpinner.getValue());
         });
 
-        SpinnerNumberModel updateModel = new SpinnerNumberModel(updateInterval, 0.1, 3.0, 0.1);
+        SpinnerNumberModel updateModel = new SpinnerNumberModel(updateInterval, 0.1, updateModelMaxTime, 0.1);
         updateIntervalSpinner.setModel(updateModel);
 
         ButtonGroup group = new ButtonGroup();
         group.add(timeBased);
         group.add(distanceBased);
 
+        timeBased.addActionListener(e -> {
+            updateModel.setValue(Math.min((double) updateIntervalSpinner.getValue(), updateModelMaxTime));
+            updateModel.setMaximum(updateModelMaxTime);
+        });
+
+        distanceBased.addActionListener(e -> {
+            updateModel.setValue(Math.min((double) updateIntervalSpinner.getValue(), updateModelMaxDistance));
+            updateModel.setMaximum(updateModelMaxDistance);
+        });
+
         timeBased.setSelected(timeBasedUpdates);
-
-        timeBased.addChangeListener(e -> {
-            updateModel.setValue(Math.min((double) updateIntervalSpinner.getValue(), 3.0));
-            updateModel.setMaximum(2.0);
-        });
-
-        distanceBased.addChangeListener(e -> {
-            updateModel.setValue(Math.min((double) updateIntervalSpinner.getValue(), 100.0));
-            updateModel.setMaximum(100.0);
-        });
-
+        distanceBased.setSelected(!timeBasedUpdates);
     }
 
     public double getSpeedMin() {

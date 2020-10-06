@@ -1,10 +1,12 @@
 package models;
 
 import org.apache.log4j.Logger;
+import org.contikios.cooja.Cooja;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.TimeEvent;
 import utils.MobilityMote;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +22,7 @@ public abstract class MobilityModel {
     public MobilityModel(Simulation simulation) {
         this.simulation = simulation;
         motes = Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList());
-        logger.info("Created instance of model: "  + getMobilityModelName());
+        logger.info("Created instance of model: " + getMobilityModelName());
     }
 
     public abstract void step();
@@ -28,13 +30,16 @@ public abstract class MobilityModel {
     public abstract String getMobilityModelName();
 
     public void register() {
+        if (registered) {
+            JOptionPane.showMessageDialog(Cooja.getTopParentContainer(), "Mobility model already running.");
+            return;
+        }
         registered = true;
         simulation.invokeSimulationThread(() -> simulation.scheduleEvent(stepEvent, simulation.getSimulationTime() + period));
     }
 
     public void unregister() {
         registered = false;
-        simulation.clearEvents();
     }
 
     private final TimeEvent stepEvent = new TimeEvent(0) {
