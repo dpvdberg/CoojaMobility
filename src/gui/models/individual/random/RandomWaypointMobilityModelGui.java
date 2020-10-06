@@ -4,7 +4,7 @@ import gui.models.SimulationArea;
 
 import javax.swing.*;
 
-public class RandomWaypointMobilityModel {
+public class RandomWaypointMobilityModelGui {
     private JPanel mainPanel;
     private JPanel simulationArea;
     private JSpinner speedMinSpinner;
@@ -12,11 +12,11 @@ public class RandomWaypointMobilityModel {
     private JSpinner pauseTimeSpinner;
     private SimulationArea area;
 
-    public RandomWaypointMobilityModel(double areaLength, double areaWidth, double speedMin, double speedMax, double pauseTime) {
+    public RandomWaypointMobilityModelGui(double areaLength, double areaWidth, double speedMin, double speedMax, double pauseTime) {
         area = new SimulationArea(areaLength, areaWidth);
         simulationArea.add(area.getMainPanel());
 
-        SpinnerNumberModel minModel = new SpinnerNumberModel(speedMin, 1.0, 100.0, 1);
+        SpinnerNumberModel minModel = new SpinnerNumberModel(speedMin, 1.0, speedMax, 1);
         speedMinSpinner.setModel(minModel);
         speedMaxSpinner.setModel(new SpinnerNumberModel(speedMax, 1.0, 100.0, 1));
 
@@ -28,10 +28,12 @@ public class RandomWaypointMobilityModel {
         pauseTimeSpinner.setModel(new SpinnerNumberModel(pauseTime, 0, 5, 1));
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
     public SimulationArea getArea() {
         return area;
     }
-
     public double getSpeedMin() {
         return (double) speedMinSpinner.getValue();
     }
