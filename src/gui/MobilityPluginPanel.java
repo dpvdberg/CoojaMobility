@@ -22,8 +22,8 @@ public class MobilityPluginPanel {
     private TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
     private long getPeriod() {
-        // period in mobility models is in nanoseconds
-        return updateIntervalSlider.getValue() * 1000;
+        // period in mobility models is in microseconds
+        return updateIntervalSlider.getValue() * Simulation.MILLISECOND;
     }
 
     public MobilityPluginPanel(Simulation simulation) {
@@ -53,7 +53,7 @@ public class MobilityPluginPanel {
             modelComboBox.addItem(model);
         }
         btnStart.addActionListener(e -> start());
-        btnStart.addActionListener(e -> stop());
+        btnStop.addActionListener(e -> stop());
     }
 
     private void start() {
