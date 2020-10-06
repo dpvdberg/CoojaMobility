@@ -16,4 +16,12 @@ public class SimulationArea {
     public JPanel getMainPanel() {
         return mainPanel;
     }
+
+    public double getAreaLength() {
+        return (double) areaLength.getValue();
+    }
+
+    public double getAreaWidth() {
+        return (double) areaWidth.getValue();
+    }
 }

@@ -1,21 +1,37 @@
 package models.individual.random;
 
-import gui.models.individual.random.RandomWalkMobilityModelGUI;
+import gui.models.individual.random.RandomWaypointMobilityModelGUI;
 import org.contikios.cooja.Simulation;
+import org.contikios.cooja.interfaces.Position;
 import utils.MobilityMote;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class RandomWaypointMobilityModel extends RandomIMobilityModel {
-    private final RandomWalkMobilityModelGUI ui = new RandomWalkMobilityModelGUI(1.0, 10.0, 1.0, true);
-    private final HashMap<MobilityMote, Double> moteSpeed = new HashMap<>();
-    private final HashMap<MobilityMote, Vector<Double>> moteDest = new HashMap<>();
-    private int updates = 0;
+    private final RandomWaypointMobilityModelGUI ui = new RandomWaypointMobilityModelGUI(100, 100, 1.0, 10, 5);
+    private final HashMap<MobilityMote, RandomWaypointInfo> moteInfo = new HashMap<>();
+    private static final double SECONDS = Math.pow(10, 6);
+
+    private static class RandomWaypointInfo {
+        private double moteSpeed;
+        private double moteDist;
+        private double dx;
+        private double dy;
+        private int moteUpdates = 0;
+        private boolean moving = true;
+        private double pauseTime;
+    }
 
     public RandomWaypointMobilityModel(Simulation simulation) {
         super(simulation);
+
+        for (MobilityMote mote : getMotes()) {
+            RandomWaypointInfo info = new RandomWaypointInfo();
+            moteInfo.put(mote, info);
+            chooseNewDirection(mote);
+
+        }
     }
 
     @Override
@@ -30,36 +46,51 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
     @Override
     protected void moveMote(MobilityMote mote) {
-//        if (ui.getTimeBased()) {
-//            //If amount of time passed (in nanoseconds) is the same as update interval in nanoseconds
-//            if (updates * getPeriod() == ui.getUpdateInterval() * Math.pow(10, 9)) {
-//                //update speed and direction of mote
-//               chooseNewDirection(mote);
-//
-//                updates = 0;
-//            }
-//        } else {
-//            //if travelled distance is >= update interval distance
-//            if (updates * getPeriod() * moteSpeed.get(mote) >= ui.getUpdateInterval()) {
-//                chooseNewDirection(mote);
-//
-//                updates = 0;
-//            }
-//        }
-//
-//        //Convert period from nanoseconds to seconds
-//        double dist = moteSpeed.get(mote) * getPeriod()/(Math.pow(10, 9));
-//
-//        double dx = dist * Math.sin(moteDirec.get(mote));
-//        double dy = dist * Math.sin(moteDirec.get(mote));
-//        mote.translate(dx, dy);
-//        updates++;
-//    }
-//
-//    private void chooseNewDirection(MobilityMote mote) {
-//        double speed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
-//        moteSpeed.put(mote, speed);
-//        double direction = random.nextDouble() * 2 * Math.PI;
-//        moteDirec.put(mote, direction);
+        RandomWaypointInfo info = moteInfo.get(mote);
+        //if travelled distance is >= distance between previous and next position
+        if (info.moving) {
+            if (info.moteUpdates * getPeriod() / SECONDS * info.moteSpeed >= info.moteDist) {
+                //wait until pause time is over
+                info.moving = false;
+                info.moteUpdates = 0;
+            }
+
+            //distance to be travelled
+            double dist = info.moteSpeed * getPeriod() / SECONDS;
+
+            //calculate new dx, dy to be travelled in this period
+            double dx = dist / info.moteDist * info.dx;
+            double dy = dist / info.moteDist * info.dy;
+
+            mote.translate(dx, dy);
+            info.moteUpdates++;
+        } else {
+            if ((info.moteUpdates + 1) * getPeriod() >= info.pauseTime * SECONDS) {
+                chooseNewDirection(mote);
+                info.moteUpdates = 0;
+                info.moving = true;
+            } else {
+                info.moteUpdates++;
+            }
+        }
+    }
+
+    private void chooseNewDirection(MobilityMote mote) {
+        RandomWaypointInfo info = moteInfo.get(mote);
+
+        //Save a new random speed
+        info.moteSpeed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
+
+        //Generate random position in simulation area
+        double[] pos = {random.nextDouble() * ui.getArea().getAreaLength(), random.nextDouble() * ui.getArea().getAreaWidth()};
+        Position current = mote.getInterfaces().getPosition();
+
+        //Calculate total dx, dy and distance to be travelled
+        info.dx = pos[0] - current.getXCoordinate();
+        info.dy = pos[1] - current.getYCoordinate();
+        info.moteDist = Math.sqrt(Math.pow(info.dx, 2) + Math.pow(info.dy, 2));
+
+        //Generate a random pause time
+        info.pauseTime = random.nextDouble() * ui.getMaxPauseTime();
     }
 }

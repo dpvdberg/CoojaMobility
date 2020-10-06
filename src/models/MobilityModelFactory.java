@@ -1,6 +1,8 @@
 package models;
 
+import models.individual.random.RandomDirectionMobilityModel;
 import models.individual.random.RandomWalkMobilityModel;
+import models.individual.random.RandomWaypointMobilityModel;
 import org.contikios.cooja.Simulation;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ public class MobilityModelFactory {
         return new ArrayList<MobilityModel>() {
             {
                 add(new RandomWalkMobilityModel(simulation));
+                add(new RandomWaypointMobilityModel(simulation));
+                add(new RandomDirectionMobilityModel(simulation));
             }
         };
     }
