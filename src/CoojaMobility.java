@@ -1,12 +1,10 @@
 import gui.MobilityPluginPanel;
-import gui.MoteGroupPanel;
+import gui.group.MoteGroupPanel;
 import org.apache.log4j.Logger;
 import org.contikios.cooja.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.PropertyVetoException;
-import java.util.ArrayList;
 
 @ClassDescription("CoojaMobility")
 @PluginType(PluginType.SIM_PLUGIN)
@@ -26,5 +24,7 @@ public class CoojaMobility extends VisPlugin {
         mainBox.add(panel.getMainPanel());
 
         this.getContentPane().add(BorderLayout.CENTER, mainBox);
+
+        MoteGroupPanel.build(simulation);
     }
 }

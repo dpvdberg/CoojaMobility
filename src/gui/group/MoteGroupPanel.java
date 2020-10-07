@@ -1,8 +1,9 @@
-package gui;
+package gui.group;
 
 import org.contikios.cooja.*;
 import org.contikios.cooja.plugins.Visualizer;
 import utils.MobilityMote;
+import utils.MoteGroup;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
@@ -10,8 +11,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.tree.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.*;
 import java.util.List;
@@ -20,6 +19,26 @@ import java.util.stream.Collectors;
 @ClassDescription("Simulation Information")
 @PluginType(PluginType.SIM_PLUGIN)
 public class MoteGroupPanel extends VisPlugin {
+    private static MoteGroupPanel instance = null;
+
+    public static MoteGroupPanel getInstance() {
+        return instance;
+    }
+
+    public static void build(Simulation simulation) {
+        if (instance != null) {
+            return;
+        }
+        Cooja cooja = simulation.getCooja();
+        cooja.registerPlugin(MoteGroupPanel.class);
+        cooja.tryStartPlugin(MoteGroupPanel.class, cooja, simulation, null);
+
+        MoteGroupPanel groupPanel = (MoteGroupPanel) cooja.getPlugin(MoteGroupPanel.class.getName());
+        groupPanel.hide();
+
+        instance = groupPanel;
+    }
+
     private final List<MobilityMote> motes;
     private List<MoteGroup> groups = new ArrayList<>();
     Visualizer visualizer = null;
@@ -29,60 +48,9 @@ public class MoteGroupPanel extends VisPlugin {
     private JButton btnRandomize;
     private JButton btnRemoveGroup;
     private JButton btnAddMotes;
+    private final List<MoteGroupUpdateListener> listeners = new ArrayList<>();
 
     private final MoteGroup initialGroup = new MoteGroup("Initial Group");
-
-    public class MoteGroup {
-        private final String groupName;
-        private final List<MobilityMote> moteList;
-
-        public MoteGroup(String groupName) {
-            this.groupName = groupName;
-            moteList = new ArrayList<>();
-        }
-
-        public String getGroupName() {
-            return groupName;
-        }
-
-        public List<MobilityMote> getMoteList() {
-            return moteList;
-        }
-
-        public void addMote(MobilityMote mote) {
-            moteList.add(mote);
-        }
-
-        public void addAll(Collection<MobilityMote> motes) {
-            moteList.addAll(motes);
-        }
-
-        public void clear() {
-            moteList.clear();
-        }
-
-        public void removeMote(MobilityMote mote) {
-            moteList.remove(mote);
-        }
-
-        public void removeAll(Collection<MobilityMote> motes) {
-            moteList.removeAll(motes);
-        }
-
-        @Override
-        public String toString() {
-            return groupName;
-        }
-
-        public DefaultMutableTreeNode getTreeNode() {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(this);
-            moteList.sort(Comparator.comparingInt(MobilityMote::getID));
-            for (MobilityMote mote : moteList) {
-                node.add(new DefaultMutableTreeNode(mote));
-            }
-            return node;
-        }
-    }
 
     public MoteGroupPanel(Simulation simulation, final Cooja cooja) {
         super("Mobility groups", cooja);
@@ -226,7 +194,7 @@ public class MoteGroupPanel extends VisPlugin {
         Set<MobilityMote> orphans = new HashSet<>(motes);
 
         for (MoteGroup group : groups) {
-            orphans.removeAll(group.moteList);
+            orphans.removeAll(group.getMoteList());
         }
 
         initialGroup.clear();
@@ -248,7 +216,7 @@ public class MoteGroupPanel extends VisPlugin {
         }
 
         // Sort on group name
-        groups.sort(Comparator.comparing(g -> g.groupName));
+        groups.sort(Comparator.comparing(g -> g.getGroupName()));
 
         // Add groups to top node
         for (MoteGroup group : groups) {
@@ -266,5 +234,23 @@ public class MoteGroupPanel extends VisPlugin {
             TreePath path = new TreePath(node.getPath());
             moteTree.expandPath(path);
         }
+
+        listeners.forEach(MoteGroupUpdateListener::moteGroupsUpdated);
+    }
+
+    public static void showGroupPanel() {
+        instance.show();
+        try {
+            instance.setSelected(true);
+        } catch (PropertyVetoException ignored) {
+        }
+    }
+
+    public void registerListener(MoteGroupUpdateListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(MoteGroupUpdateListener listener) {
+        listeners.remove(listener);
     }
 }

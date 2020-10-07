@@ -1,7 +1,6 @@
 package gui.models.individual.random;
 
-import gui.MobilityPluginPanel;
-import models.individual.random.RandomWalkMobilityModel;
+import gui.group.MoteGroupPanel;
 
 import javax.swing.*;
 
@@ -48,7 +47,7 @@ public class RandomWalkMobilityModelGUI {
         distanceBased.setSelected(!timeBasedUpdates);
 
         btnTestShowGroups.addActionListener(e -> {
-            MobilityPluginPanel.showGroupPanel();
+            MoteGroupPanel.showGroupPanel();
         });
     }
 
