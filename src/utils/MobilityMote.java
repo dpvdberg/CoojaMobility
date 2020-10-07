@@ -37,6 +37,10 @@ public class MobilityMote implements Mote {
         return String.format("Mote #%d (%s)", mote.getID(), mote.getType().getIdentifier());
     }
 
+    public Mote getMote() {
+        return mote;
+    }
+
     //region Decorator delegates
     @Override
     public int getID() {
