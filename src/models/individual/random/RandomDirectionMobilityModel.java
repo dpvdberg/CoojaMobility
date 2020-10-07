@@ -1,5 +1,6 @@
 package models.individual.random;
 
+import gui.MobilityPluginPanel;
 import gui.models.individual.random.RandomDirectionMobilityModelGUI;
 import gui.models.individual.random.RandomWaypointMobilityModelGUI;
 import org.contikios.cooja.Simulation;
