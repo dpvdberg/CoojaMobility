@@ -1,22 +1,20 @@
 package models.group;
 
-import gui.MobilityPluginPanel;
-import gui.MoteGroupPanel;
+import gui.group.MoteGroupPanel;
 import models.MobilityModel;
 import org.contikios.cooja.Simulation;
-
-import javax.swing.*;
+import utils.MoteGroup;
 
 public abstract class GroupMobilityModel extends MobilityModel {
     public GroupMobilityModel(Simulation simulation) {
         super(simulation);
     }
 
-    protected abstract void moveGroup(MoteGroupPanel.MoteGroup group);
+    protected abstract void moveGroup(MoteGroup group);
 
     @Override
     public void step() {
-        for (MoteGroupPanel.MoteGroup group : MobilityPluginPanel.GroupPanel.getGroups()) {
+        for (MoteGroup group : MoteGroupPanel.getInstance().getGroups()) {
             moveGroup(group);
         }
     }

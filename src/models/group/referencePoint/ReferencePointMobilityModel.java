@@ -1,6 +1,5 @@
 package models.group.referencePoint;
 
-import gui.MoteGroupPanel;
 import models.individual.IndividualMobilityModel;
 import org.contikios.cooja.Simulation;
 import utils.MobilityMote;
