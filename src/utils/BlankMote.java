@@ -1,10 +1,8 @@
 package utils;
 
-import org.contikios.cooja.Mote;
-import org.contikios.cooja.MoteInterfaceHandler;
-import org.contikios.cooja.MoteType;
-import org.contikios.cooja.Simulation;
+import org.contikios.cooja.*;
 import org.contikios.cooja.contikimote.ContikiMoteType;
+import org.contikios.cooja.interfaces.Position;
 import org.contikios.cooja.mote.memory.MemoryInterface;
 import org.jdom.Element;
 
@@ -19,7 +17,7 @@ public class BlankMote implements Mote {
 
     @Override
     public MoteInterfaceHandler getInterfaces() {
-        return new MoteInterfaceHandler(this, new ContikiMoteType().getMoteInterfaceClasses());
+        return new MoteInterfaceHandler(this, new Class[] {Position.class});
     }
 
     @Override
