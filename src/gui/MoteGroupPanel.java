@@ -198,7 +198,7 @@ public class MoteGroupPanel extends VisPlugin {
         });
     }
 
-    public void setGroups(List<MoteGroup> groups) {
+    private void setGroups(List<MoteGroup> groups) {
         this.groups = groups;
         updateUIGroups();
     }
@@ -266,5 +266,9 @@ public class MoteGroupPanel extends VisPlugin {
             TreePath path = new TreePath(node.getPath());
             moteTree.expandPath(path);
         }
+    }
+
+    public List<MoteGroup> getGroups() {
+        return new ArrayList<>(groups);
     }
 }
