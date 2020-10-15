@@ -6,6 +6,8 @@ import models.individual.IndividualMobilityModel;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReferencePointMobilityPanel {
@@ -13,6 +15,7 @@ public class ReferencePointMobilityPanel {
     private JComboBox RPModelComboBox;
     private JPanel mainPanel;
     private JPanel mobilityModelSettings;
+    private List<ReferencePointMobilityModelUpdateListener> listeners = new ArrayList<>();
 
     public JPanel getMainPanel() {
         return mainPanel;
@@ -32,6 +35,8 @@ public class ReferencePointMobilityPanel {
                 // Set mobility model settings panel
                 mobilityModelSettings.removeAll();
                 mobilityModelSettings.add(activeModel.getModelSettingsComponent());
+
+                listeners.forEach(ReferencePointMobilityModelUpdateListener::referencePointMobilityModelUpdated);
             }
         });
 
@@ -43,5 +48,13 @@ public class ReferencePointMobilityPanel {
 
     public IndividualMobilityModel getActiveModel() {
         return activeModel;
+    }
+
+    public void addListener(ReferencePointMobilityModelUpdateListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(ReferencePointMobilityModelUpdateListener listener) {
+        listeners.remove(listener);
     }
 }
