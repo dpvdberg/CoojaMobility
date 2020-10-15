@@ -1,5 +1,6 @@
 package models.group.referencePoint;
 
+import gui.group.MoteGroupPanel;
 import gui.models.group.referencePoint.ReferencePointMobilityModelGUI;
 import models.individual.IndividualMobilityModel;
 import org.contikios.cooja.Mote;
@@ -38,6 +39,9 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
 
             deviation.put(mote, new DeviationVector(randomX, randomY));
         }
+
+        MoteGroupPanel.getInstance().addListener(this);
+        ui.getReferencePointMobilityPanel().addListener(this);
     }
 
     @Override
