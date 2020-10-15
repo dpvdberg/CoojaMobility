@@ -7,12 +7,29 @@ import org.contikios.cooja.mote.memory.MemoryInterface;
 import org.jdom.Element;
 
 import java.util.Collection;
+import java.util.Objects;
+import java.util.UUID;
 
 public class BlankMote extends MobilityMote {
     private Position position = new Position(null);
+    UUID uniqueID = UUID.randomUUID();
 
     public BlankMote() {
         super();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BlankMote blankMote = (BlankMote) o;
+        return Objects.equals(uniqueID, blankMote.uniqueID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), position);
     }
 
     @Override
@@ -37,5 +54,10 @@ public class BlankMote extends MobilityMote {
     @Override
     public Position getPosition() {
         return this.position;
+    }
+
+    @Override
+    public String toString() {
+        return "BlankMote";
     }
 }

@@ -26,8 +26,10 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
         createReferencePoints();
 
         for (MobilityMote mote : getMotes()) {
-            double randomX = MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble());
-            double randomY = MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble());
+            double randomX = (random.nextBoolean() ? -1 : 1) *
+                    MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble());
+            double randomY = (random.nextBoolean() ? -1 : 1) *
+                    MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble());
 
             deviation.put(mote, new Vector(randomX, randomY));
         }
@@ -56,13 +58,18 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
     protected void moveMote(MobilityMote mote, MobilityMote point) {
         Position pos = point.getPosition();
 
-        double dX = deviation.get(mote).getX() +
-                MathUtils.linearInterpolate(-1, 1, random.nextDouble()) +
-                MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), getPeriod() / SECONDS);
-        double dY = deviation.get(mote).getY() +
-                MathUtils.linearInterpolate(-1, 1, random.nextDouble()) +
-                MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), getPeriod() / SECONDS);
+        double deltaX = (random.nextBoolean() ? -1 : 1)
+                * MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble())
+                * getPeriod() / SECONDS;
+        double deltaY = (random.nextBoolean() ? -1 : 1)
+                * MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble())
+                * getPeriod() / SECONDS;
 
-        mote.moveTo(pos.getXCoordinate() + dX, pos.getYCoordinate() + dY);
+        Vector movedVector = new Vector(deviation.get(mote).getX() + deltaX, deviation.get(mote).getY() + deltaY)
+                .scale(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner());
+
+        deviation.put(mote, movedVector);
+
+        mote.moveTo(pos.getXCoordinate() + movedVector.getX(), pos.getYCoordinate() + movedVector.getY());
     }
 }
