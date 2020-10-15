@@ -61,6 +61,7 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
     @Override
     protected void moveMote(MobilityMote mote) {
+        System.out.println(mote.getPosition().getXCoordinate() + ", " + mote.getPosition().getYCoordinate());
         RandomWaypointInfo info = moteInfo.get(mote);
         //if travelled distance is >= distance between previous and next position
         if (info.moving) {

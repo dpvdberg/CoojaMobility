@@ -68,8 +68,6 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
         double dX = deviation.get(mote).x + ((-1 + 2 * random.nextDouble()) * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner()) * getPeriod() / SECONDS;
         double dY = deviation.get(mote).y + ((-1 + 2 * random.nextDouble()) * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner()) * getPeriod() / SECONDS;
 
-        deviation.put(mote, new DeviationVector(dX, dY));
-
         mote.moveTo(pos.getXCoordinate() + dX, pos.getYCoordinate() + dY);
     }
 }
