@@ -20,7 +20,6 @@ public class MobilityPluginPanel {
     private JPanel mobilityModelSettings;
     private JSlider updateIntervalSlider;
     private MobilityModel activeModel;
-    private List<MobilityModelSettingListener> listeners = new ArrayList<>();
 
     private TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
@@ -60,10 +59,7 @@ public class MobilityPluginPanel {
             }
         });
 
-        updateIntervalSlider.addChangeListener(e -> {
-            activeModel.setPeriod(getPeriod());
-            listeners.forEach(l -> l.updatePeriod(getPeriod()));
-        });
+        updateIntervalSlider.addChangeListener(e -> activeModel.setPeriod(getPeriod()));
 
         modelComboBox.setModel(new DefaultComboBoxModel<>());
         for (MobilityModel model : MobilityModelFactory.buildModels(simulation)) {
@@ -75,23 +71,13 @@ public class MobilityPluginPanel {
 
     private void start() {
         activeModel.register();
-        listeners.forEach(MobilityModelSettingListener::start);
     }
 
     private void stop() {
         activeModel.unregister();
-        listeners.forEach(MobilityModelSettingListener::stop);
     }
 
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-
-    public void addListener(MobilityModelSettingListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeListener(MobilityModelSettingListener listener) {
-        listeners.remove(listener);
     }
 }
