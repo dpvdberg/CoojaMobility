@@ -11,7 +11,19 @@ public class ReferencePointMobilityModelGUI {
     private JSpinner maxDeviationSpinner;
     private IndividualMobilityModel referencePointModel;
 
-    public ReferencePointMobilityModelGUI(IndividualMobilityModel referencePointMobilityModel, double minDeviation, double maxDeviation) {
-        referencePointMobilityModel.getModelSettingsComponent();
+    public ReferencePointMobilityModelGUI(double minDeviation, double maxDeviation) {
+    }
+
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public double getMinDeviationSpinner() {
+        return (double) minDeviationSpinner.getValue();
+    }
+
+    public double getMaxDeviationSpinner() {
+        return (double) maxDeviationSpinner.getValue();
     }
 }
