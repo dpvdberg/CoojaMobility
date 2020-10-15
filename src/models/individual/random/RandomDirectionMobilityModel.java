@@ -5,6 +5,7 @@ import gui.models.individual.random.RandomDirectionMobilityModelGUI;
 import gui.models.individual.random.RandomWaypointMobilityModelGUI;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.interfaces.Position;
+import utils.MathUtils;
 import utils.MobilityMote;
 
 import java.awt.*;
@@ -105,7 +106,7 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
     private void chooseNewDirection(MobilityMote mote) {
         RandomDirectionInfo info = moteInfo.get(mote);
 
-        info.moteSpeed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
+        info.moteSpeed = MathUtils.linearInterpolate(ui.getSpeedMin(), ui.getSpeedMax(), random.nextDouble());
 
         double angle = random.nextDouble() * Math.PI;
 

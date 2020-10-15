@@ -2,6 +2,7 @@ package models.individual.random;
 
 import gui.models.individual.random.RandomWalkMobilityModelGUI;
 import org.contikios.cooja.Simulation;
+import utils.MathUtils;
 import utils.MobilityMote;
 
 import java.awt.*;
@@ -86,7 +87,7 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
     }
 
     private void chooseNewDirection(RandomWalkInfo info) {
-        info.moteSpeed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
+        info.moteSpeed = MathUtils.linearInterpolate(ui.getSpeedMin(), ui.getSpeedMax(), random.nextDouble());
         info.moteDirec = random.nextDouble() * 2 * Math.PI;
     }
 }

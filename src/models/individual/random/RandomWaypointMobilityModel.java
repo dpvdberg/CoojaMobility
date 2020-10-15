@@ -3,7 +3,9 @@ package models.individual.random;
 import gui.models.individual.random.RandomWaypointMobilityModelGUI;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.interfaces.Position;
+import utils.MathUtils;
 import utils.MobilityMote;
+import utils.Vector;
 
 import java.awt.*;
 import java.util.Collection;
@@ -61,7 +63,6 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
     @Override
     protected void moveMote(MobilityMote mote) {
-        System.out.println(mote.getPosition().getXCoordinate() + ", " + mote.getPosition().getYCoordinate());
         RandomWaypointInfo info = moteInfo.get(mote);
         //if travelled distance is >= distance between previous and next position
         if (info.moving) {
@@ -95,15 +96,15 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
         RandomWaypointInfo info = moteInfo.get(mote);
 
         //Save a new random speed
-        info.moteSpeed = random.nextDouble() * (ui.getSpeedMax() - ui.getSpeedMin()) + ui.getSpeedMin();
+        info.moteSpeed = MathUtils.linearInterpolate(ui.getSpeedMin(), ui.getSpeedMax(), random.nextDouble());
 
         //Generate random position in simulation area
-        double[] pos = {random.nextDouble() * ui.getArea().getAreaLength(), random.nextDouble() * ui.getArea().getAreaWidth()};
+        Vector pos = new Vector(random.nextDouble() * ui.getArea().getAreaLength(), random.nextDouble() * ui.getArea().getAreaWidth());
         Position current = mote.getPosition();
 
         //Calculate total dx, dy and distance to be travelled
-        info.dx = pos[0] - current.getXCoordinate();
-        info.dy = pos[1] - current.getYCoordinate();
+        info.dx = pos.getX() - current.getXCoordinate();
+        info.dy = pos.getY() - current.getYCoordinate();
         info.moteDist = Math.sqrt(Math.pow(info.dx, 2) + Math.pow(info.dy, 2));
 
         //Generate a random pause time
