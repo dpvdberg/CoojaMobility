@@ -246,7 +246,7 @@ public class MoteGroupPanel extends VisPlugin {
         }
     }
 
-    public void registerListener(MoteGroupUpdateListener listener) {
+    public void addListener(MoteGroupUpdateListener listener) {
         listeners.add(listener);
     }
 
