@@ -9,6 +9,7 @@ import utils.MobilityMote;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class RandomDirectionMobilityModel extends RandomIMobilityModel {
     private final RandomDirectionMobilityModelGUI ui = new RandomDirectionMobilityModelGUI(100, 100, 5);
@@ -25,6 +26,16 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
 
     public RandomDirectionMobilityModel(Simulation simulation) {
         super(simulation);
+    }
+
+    public RandomDirectionMobilityModel() {
+        super();
+    }
+
+
+    @Override
+    public void setMotes(List<MobilityMote> motes) {
+        super.setMotes(motes);
 
         for (MobilityMote mote : getMotes()) {
             RandomDirectionInfo info = new RandomDirectionInfo();

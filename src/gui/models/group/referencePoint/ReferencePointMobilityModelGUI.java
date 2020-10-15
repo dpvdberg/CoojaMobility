@@ -1,17 +1,23 @@
 package gui.models.group.referencePoint;
 
-import models.individual.IndividualMobilityModel;
+import gui.group.ReferencePointMobilityPanel;
+import models.MobilityModel;
+import org.contikios.cooja.Simulation;
 
 import javax.swing.*;
 
 public class ReferencePointMobilityModelGUI {
     private JPanel mainPanel;
-    private JPanel referencePointMobilityModelPanel;
+    private JPanel referencePointMobilityJPanel;
     private JSpinner minDeviationSpinner;
     private JSpinner maxDeviationSpinner;
-    private IndividualMobilityModel referencePointModel;
+
+    private ReferencePointMobilityPanel referencePointMobilityPanel;
 
     public ReferencePointMobilityModelGUI(double minDeviation, double maxDeviation) {
+        referencePointMobilityPanel = new ReferencePointMobilityPanel();
+
+        referencePointMobilityJPanel.add(referencePointMobilityPanel.getMainPanel());
     }
 
 
@@ -25,5 +31,9 @@ public class ReferencePointMobilityModelGUI {
 
     public double getMaxDeviationSpinner() {
         return (double) maxDeviationSpinner.getValue();
+    }
+
+    public MobilityModel getReferencePointMobilityModel() {
+        return referencePointMobilityPanel.getActiveModel();
     }
 }

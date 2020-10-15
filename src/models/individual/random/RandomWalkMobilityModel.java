@@ -6,6 +6,7 @@ import utils.MobilityMote;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class RandomWalkMobilityModel extends RandomIMobilityModel {
     private final RandomWalkMobilityModelGUI ui = new RandomWalkMobilityModelGUI(1.0, 10.0, 1.0, true);
@@ -20,6 +21,15 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
 
     public RandomWalkMobilityModel(Simulation simulation) {
         super(simulation);
+    }
+
+    public RandomWalkMobilityModel() {
+        super();
+    }
+
+    @Override
+    public void setMotes(List<MobilityMote> motes) {
+        super.setMotes(motes);
 
         for (MobilityMote mote : getMotes()) {
             RandomWalkInfo info =  new RandomWalkInfo();

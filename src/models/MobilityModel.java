@@ -16,13 +16,22 @@ public abstract class MobilityModel {
     private static final Logger logger = Logger.getLogger(MobilityModel.class);
     private final Simulation simulation;
     private long period;
-    private final List<MobilityMote> motes;
+    private List<MobilityMote> motes;
     private boolean registered = false;
 
     public MobilityModel(Simulation simulation) {
         this.simulation = simulation;
-        motes = Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList());
+        setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
         logger.info("Created instance of model: " + getMobilityModelName());
+    }
+
+    public MobilityModel() {
+        logger.info("Created empty instance of model: " + getMobilityModelName());
+        simulation = null;
+    }
+
+    public void setMotes(List<MobilityMote> motes) {
+        this.motes = motes;
     }
 
     public abstract void step();
@@ -30,6 +39,9 @@ public abstract class MobilityModel {
     public abstract String getMobilityModelName();
 
     public void register() {
+        if (simulation == null) {
+            System.out.println("Cannot register a mobility model without simulation");
+        }
         if (registered) {
             JOptionPane.showMessageDialog(Cooja.getTopParentContainer(), "Mobility model already running.");
             return;

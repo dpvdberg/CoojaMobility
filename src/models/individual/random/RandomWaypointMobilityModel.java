@@ -7,6 +7,7 @@ import utils.MobilityMote;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class RandomWaypointMobilityModel extends RandomIMobilityModel {
     private final RandomWaypointMobilityModelGUI ui = new RandomWaypointMobilityModelGUI(100, 100, 1.0, 10, 5);
@@ -25,12 +26,20 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
     public RandomWaypointMobilityModel(Simulation simulation) {
         super(simulation);
+    }
+
+    public RandomWaypointMobilityModel() {
+        super();
+    }
+
+    @Override
+    public void setMotes(List<MobilityMote> motes) {
+        super.setMotes(motes);
 
         for (MobilityMote mote : getMotes()) {
             RandomWaypointInfo info = new RandomWaypointInfo();
             moteInfo.put(mote, info);
             chooseNewDirection(mote);
-
         }
     }
 

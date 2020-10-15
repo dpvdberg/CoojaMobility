@@ -9,6 +9,10 @@ public abstract class IndividualMobilityModel extends MobilityModel {
         super(simulation);
     }
 
+    public IndividualMobilityModel() {
+        super();
+    }
+
     protected abstract void moveMote(MobilityMote mote);
 
     @Override

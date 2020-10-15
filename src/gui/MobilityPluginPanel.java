@@ -1,15 +1,15 @@
 package gui;
 
-import gui.group.MoteGroupPanel;
 import models.MobilityModel;
 import models.MobilityModelFactory;
-import org.contikios.cooja.Cooja;
 import org.contikios.cooja.Simulation;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MobilityPluginPanel {
     private final Simulation simulation;
@@ -20,15 +20,27 @@ public class MobilityPluginPanel {
     private JPanel mobilityModelSettings;
     private JSlider updateIntervalSlider;
     private MobilityModel activeModel;
+    private List<MobilityModelSettingListener> listeners = new ArrayList<>();
 
     private TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
-    private long getPeriod() {
+    public long getPeriod() {
         // period in mobility models is in microseconds
         return updateIntervalSlider.getValue() * Simulation.MILLISECOND;
     }
 
-    public MobilityPluginPanel(Simulation simulation) {
+    private static MobilityPluginPanel instance;
+    public static MobilityPluginPanel getInstance() {
+        return instance;
+    }
+
+    public static void buildInstance(Simulation simulation) {
+        if (instance == null) {
+            instance = new MobilityPluginPanel(simulation);
+        }
+    }
+
+    private MobilityPluginPanel(Simulation simulation) {
         this.simulation = simulation;
 
         modelComboBox.addItemListener(e -> {
@@ -48,7 +60,10 @@ public class MobilityPluginPanel {
             }
         });
 
-        updateIntervalSlider.addChangeListener(e -> activeModel.setPeriod(getPeriod()));
+        updateIntervalSlider.addChangeListener(e -> {
+            activeModel.setPeriod(getPeriod());
+            listeners.forEach(l -> l.updatePeriod(getPeriod()));
+        });
 
         modelComboBox.setModel(new DefaultComboBoxModel<>());
         for (MobilityModel model : MobilityModelFactory.buildModels(simulation)) {
@@ -60,13 +75,23 @@ public class MobilityPluginPanel {
 
     private void start() {
         activeModel.register();
+        listeners.forEach(MobilityModelSettingListener::start);
     }
 
     private void stop() {
         activeModel.unregister();
+        listeners.forEach(MobilityModelSettingListener::stop);
     }
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+
+    public void addListener(MobilityModelSettingListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(MobilityModelSettingListener listener) {
+        listeners.remove(listener);
     }
 }
