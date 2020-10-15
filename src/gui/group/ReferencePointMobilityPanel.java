@@ -2,13 +2,14 @@ package gui.group;
 
 import models.MobilityModel;
 import models.MobilityModelFactory;
+import models.individual.IndividualMobilityModel;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.util.List;
 
 public class ReferencePointMobilityPanel {
-    private MobilityModel activeModel;
+    private IndividualMobilityModel activeModel;
     private JComboBox RPModelComboBox;
     private JPanel mainPanel;
     private JPanel mobilityModelSettings;
@@ -21,10 +22,10 @@ public class ReferencePointMobilityPanel {
         this(MobilityModelFactory.buildEmptyIndividualModels());
     }
 
-    public ReferencePointMobilityPanel(List<MobilityModel> models) {
+    public ReferencePointMobilityPanel(List<IndividualMobilityModel> models) {
         RPModelComboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                MobilityModel selectedModel = (MobilityModel) RPModelComboBox.getSelectedItem();
+                IndividualMobilityModel selectedModel = (IndividualMobilityModel) RPModelComboBox.getSelectedItem();
                 assert selectedModel != null;
                 activeModel = selectedModel;
 
@@ -40,7 +41,7 @@ public class ReferencePointMobilityPanel {
         }
     }
 
-    public MobilityModel getActiveModel() {
+    public IndividualMobilityModel getActiveModel() {
         return activeModel;
     }
 }

@@ -1,6 +1,7 @@
 package models;
 
 import models.group.referencePoint.ReferencePointMobilityModel;
+import models.individual.IndividualMobilityModel;
 import models.individual.random.RandomDirectionMobilityModel;
 import models.individual.random.RandomWalkMobilityModel;
 import models.individual.random.RandomWaypointMobilityModel;
@@ -21,8 +22,8 @@ public class MobilityModelFactory {
         };
     }
 
-    public static List<MobilityModel> buildEmptyIndividualModels() {
-        return new ArrayList<MobilityModel>() {
+    public static List<IndividualMobilityModel> buildEmptyIndividualModels() {
+        return new ArrayList<IndividualMobilityModel>() {
             {
                 add(new RandomWalkMobilityModel());
                 add(new RandomWaypointMobilityModel());
