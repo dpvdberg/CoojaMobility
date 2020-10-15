@@ -9,6 +9,7 @@ import utils.MobilityMote;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public abstract class MobilityModel {
     private static final Logger logger = Logger.getLogger(MobilityModel.class);
     private final Simulation simulation;
     private long period;
-    private List<MobilityMote> motes;
+    private Collection<MobilityMote> motes;
     private boolean registered = false;
 
     public MobilityModel(Simulation simulation) {
@@ -30,7 +31,7 @@ public abstract class MobilityModel {
         simulation = null;
     }
 
-    public void setMotes(List<MobilityMote> motes) {
+    public void setMotes(Collection<MobilityMote> motes) {
         this.motes = motes;
     }
 
@@ -77,7 +78,7 @@ public abstract class MobilityModel {
         return period;
     }
 
-    public List<MobilityMote> getMotes() {
+    public Collection<MobilityMote> getMotes() {
         return motes;
     }
 

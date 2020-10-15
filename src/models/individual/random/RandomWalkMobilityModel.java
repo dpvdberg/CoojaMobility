@@ -5,6 +5,7 @@ import org.contikios.cooja.Simulation;
 import utils.MobilityMote;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
     }
 
     @Override
-    public void setMotes(List<MobilityMote> motes) {
+    public void setMotes(Collection<MobilityMote> motes) {
         super.setMotes(motes);
 
         for (MobilityMote mote : getMotes()) {

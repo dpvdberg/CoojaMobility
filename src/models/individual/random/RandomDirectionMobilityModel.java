@@ -8,6 +8,7 @@ import org.contikios.cooja.interfaces.Position;
 import utils.MobilityMote;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
 
 
     @Override
-    public void setMotes(List<MobilityMote> motes) {
+    public void setMotes(Collection<MobilityMote> motes) {
         super.setMotes(motes);
 
         for (MobilityMote mote : getMotes()) {
