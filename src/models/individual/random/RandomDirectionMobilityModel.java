@@ -27,6 +27,7 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
 
     public RandomDirectionMobilityModel(Simulation simulation) {
         super(simulation);
+        initialize();
     }
 
     public RandomDirectionMobilityModel() {
@@ -37,7 +38,11 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
     @Override
     public void setMotes(Collection<MobilityMote> motes) {
         super.setMotes(motes);
+        initialize();
+    }
 
+    @Override
+    public void initialize() {
         for (MobilityMote mote : getMotes()) {
             RandomDirectionInfo info = new RandomDirectionInfo();
             moteInfo.put(mote, info);
@@ -61,7 +66,7 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
         RandomDirectionInfo info = moteInfo.get(mote);
         //if travelled distance is >= distance between previous and next position
         if (info.moving) {
-            Position current = mote.getInterfaces().getPosition();
+            Position current = mote.getPosition();
             if (current.getXCoordinate() >= ui.getSimulationArea().getAreaLength() ||
                     current.getYCoordinate() >= ui.getSimulationArea().getAreaWidth() ||
                         current.getXCoordinate() <= 0 ||
@@ -79,7 +84,6 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
                 info.moteUpdates++;
             }
         } else {
-            System.out.println("Waiting for " + (info.moteUpdates + 1) * getPeriod() + " >= " + info.pauseTime * SECONDS);
             if ((info.moteUpdates + 1) * getPeriod() >= info.pauseTime * SECONDS) {
                 chooseNewDirection(mote);
                 info.moteUpdates = 0;
@@ -106,7 +110,7 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
         double angle = random.nextDouble() * Math.PI;
 
         //Add appropriate value of pi, depending on which boundary the mote is on
-        Position current = mote.getInterfaces().getPosition();
+        Position current = mote.getPosition();
         if (current.getXCoordinate() >= ui.getSimulationArea().getAreaLength()) {
             info.moteDir = angle + 0.5 * Math.PI;
         } else if (current.getYCoordinate() >= ui.getSimulationArea().getAreaWidth()) {

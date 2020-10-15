@@ -1,5 +1,6 @@
 package models;
 
+import gui.group.MoteGroupPanel;
 import org.apache.log4j.Logger;
 import org.contikios.cooja.Cooja;
 import org.contikios.cooja.Simulation;
@@ -22,7 +23,7 @@ public abstract class MobilityModel {
 
     public MobilityModel(Simulation simulation) {
         this.simulation = simulation;
-        setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
+        motes = Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList());
         logger.info("Created instance of model: " + getMobilityModelName());
     }
 

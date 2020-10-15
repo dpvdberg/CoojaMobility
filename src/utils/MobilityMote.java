@@ -9,9 +9,14 @@ import org.contikios.cooja.mote.memory.MemoryInterface;
 import org.jdom.Element;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class MobilityMote implements Mote {
-    private final Mote mote;
+    private Mote mote;
+
+    public MobilityMote() {
+
+    }
 
     public MobilityMote(Mote mote) {
         this.mote = mote;
@@ -32,6 +37,10 @@ public class MobilityMote implements Mote {
         moveTo(pos.getXCoordinate() + x, pos.getYCoordinate() + y);
     }
 
+    public Position getPosition() {
+        return mote.getInterfaces().getPosition();
+    }
+
     @Override
     public String toString() {
         return String.format("Mote #%d (%s)", mote.getID(), mote.getType().getIdentifier());
@@ -39,6 +48,19 @@ public class MobilityMote implements Mote {
 
     public Mote getMote() {
         return mote;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MobilityMote that = (MobilityMote) o;
+        return Objects.equals(mote, that.mote);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mote);
     }
 
     //region Decorator delegates

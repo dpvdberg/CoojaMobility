@@ -32,6 +32,7 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
 
     public ReferencePointMobilityModel(Simulation simulation) {
         super(simulation);
+        createReferencePoints();
 
         for (MobilityMote mote : getMotes()) {
             double randomX = random.nextDouble() * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner();
@@ -62,10 +63,10 @@ public class ReferencePointMobilityModel extends ReferencePointIMobilityModel{
 
     @Override
     protected void moveMote(MobilityMote mote, MobilityMote point) {
-        Position pos = point.getMote().getInterfaces().getPosition();
+        Position pos = point.getPosition();
 
-        double dX = deviation.get(mote).x + random.nextDouble() * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner() * getPeriod() / SECONDS;
-        double dY = deviation.get(mote).y + random.nextDouble() * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner() * getPeriod() / SECONDS;
+        double dX = deviation.get(mote).x + ((-1 + 2 * random.nextDouble()) * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner()) * getPeriod() / SECONDS;
+        double dY = deviation.get(mote).y + ((-1 + 2 * random.nextDouble()) * (ui.getMaxDeviationSpinner() - ui.getMinDeviationSpinner()) + ui.getMinDeviationSpinner()) * getPeriod() / SECONDS;
 
         deviation.put(mote, new DeviationVector(dX, dY));
 

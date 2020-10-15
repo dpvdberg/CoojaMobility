@@ -27,6 +27,7 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
     public RandomWaypointMobilityModel(Simulation simulation) {
         super(simulation);
+        initialize();
     }
 
     public RandomWaypointMobilityModel() {
@@ -36,7 +37,11 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
     @Override
     public void setMotes(Collection<MobilityMote> motes) {
         super.setMotes(motes);
+        initialize();
+    }
 
+    @Override
+    public void initialize() {
         for (MobilityMote mote : getMotes()) {
             RandomWaypointInfo info = new RandomWaypointInfo();
             moteInfo.put(mote, info);
@@ -93,7 +98,7 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
 
         //Generate random position in simulation area
         double[] pos = {random.nextDouble() * ui.getArea().getAreaLength(), random.nextDouble() * ui.getArea().getAreaWidth()};
-        Position current = mote.getInterfaces().getPosition();
+        Position current = mote.getPosition();
 
         //Calculate total dx, dy and distance to be travelled
         info.dx = pos[0] - current.getXCoordinate();

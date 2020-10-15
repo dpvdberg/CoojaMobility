@@ -19,6 +19,15 @@ public class ReferencePointMobilityModelGUI {
         referencePointMobilityPanel = new ReferencePointMobilityPanel();
 
         referencePointMobilityJPanel.add(referencePointMobilityPanel.getMainPanel());
+
+        SpinnerNumberModel minModel = new SpinnerNumberModel(minDeviation, 1.0, 100.0, 1);
+        minDeviationSpinner.setModel(minModel);
+        maxDeviationSpinner.setModel(new SpinnerNumberModel(maxDeviation, 1.0, 100.0, 1));
+
+        maxDeviationSpinner.addChangeListener(e -> {
+            minModel.setValue(Math.min((double) maxDeviationSpinner.getValue(), (double) minModel.getValue()));
+            minModel.setMaximum((double) maxDeviationSpinner.getValue());
+        });
     }
 
 

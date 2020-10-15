@@ -255,6 +255,8 @@ public class MoteGroupPanel extends VisPlugin {
     }
 
     public List<MoteGroup> getGroups() {
-        return new ArrayList<>(groups);
+        List<MoteGroup> g = new ArrayList<>(groups);
+        g.add(initialGroup);
+        return g;
     }
 }

@@ -6,16 +6,15 @@ import org.contikios.cooja.Simulation;
 import java.util.Random;
 
 public abstract class RandomIMobilityModel extends IndividualMobilityModel {
-    protected Random random;
+    protected Random random = new Random();
 
     public RandomIMobilityModel(Simulation simulation) {
         super(simulation);
-
-        random = new Random();
     }
 
     public RandomIMobilityModel() {
         super();
-        random = new Random();
     }
+
+    public abstract void initialize();
 }

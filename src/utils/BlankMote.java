@@ -8,55 +8,34 @@ import org.jdom.Element;
 
 import java.util.Collection;
 
-public class BlankMote implements Mote {
+public class BlankMote extends MobilityMote {
+    private Position position = new Position(null);
 
-    @Override
-    public int getID() {
-        return -1;
+    public BlankMote() {
+        super();
     }
 
     @Override
-    public MoteInterfaceHandler getInterfaces() {
-        return new MoteInterfaceHandler(this, new Class[] {Position.class});
+    public void moveTo(Position position) {
+        this.position.setCoordinates(position.getXCoordinate(), position.getYCoordinate(), position.getZCoordinate());
     }
 
     @Override
-    public MemoryInterface getMemory() {
-        return null;
+    public void moveTo(double x, double y) {
+        this.position.setCoordinates(x, y, position.getZCoordinate());
     }
 
     @Override
-    public MoteType getType() {
-        return null;
+    public void translate(double x, double y) {
+        this.position.setCoordinates(
+                this.position.getXCoordinate() + x,
+                this.position.getYCoordinate() + y,
+                this.position.getZCoordinate()
+        );
     }
 
     @Override
-    public Simulation getSimulation() {
-        return null;
-    }
-
-    @Override
-    public Collection<Element> getConfigXML() {
-        return null;
-    }
-
-    @Override
-    public boolean setConfigXML(Simulation simulation, Collection<Element> collection, boolean b) {
-        return false;
-    }
-
-    @Override
-    public void removed() {
-
-    }
-
-    @Override
-    public void setProperty(String s, Object o) {
-
-    }
-
-    @Override
-    public Object getProperty(String s) {
-        return null;
+    public Position getPosition() {
+        return this.position;
     }
 }

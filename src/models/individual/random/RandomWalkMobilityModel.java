@@ -22,6 +22,7 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
 
     public RandomWalkMobilityModel(Simulation simulation) {
         super(simulation);
+        initialize();
     }
 
     public RandomWalkMobilityModel() {
@@ -29,14 +30,18 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
     }
 
     @Override
-    public void setMotes(Collection<MobilityMote> motes) {
-        super.setMotes(motes);
-
+    public void initialize() {
         for (MobilityMote mote : getMotes()) {
             RandomWalkInfo info =  new RandomWalkInfo();
             chooseNewDirection(info);
             moteInfo.put(mote,info);
         }
+    }
+
+    @Override
+    public void setMotes(Collection<MobilityMote> motes) {
+        super.setMotes(motes);
+        initialize();
     }
 
     @Override

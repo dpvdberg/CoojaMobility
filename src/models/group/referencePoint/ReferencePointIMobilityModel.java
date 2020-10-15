@@ -26,11 +26,11 @@ public abstract class ReferencePointIMobilityModel extends GroupMobilityModel im
         super(simulation);
 
         random = new Random();
-        createReferencePoints();
     }
 
     @Override
     protected void moveGroup(MoteGroup group) {
+        referencePointMobilityModel.setPeriod(getPeriod());
         referencePointMobilityModel.step();
 
         for (MobilityMote mote : group.getMoteList()) {
@@ -49,14 +49,14 @@ public abstract class ReferencePointIMobilityModel extends GroupMobilityModel im
 
     @Override
     public void referencePointMobilityModelUpdated() {
-        buildReferencePointMobilityModel(groupReferencePoints.values());
+        referencePointMobilityModel = buildReferencePointMobilityModel(groupReferencePoints.values());
     }
 
-    private void createReferencePoints() {
+    protected void createReferencePoints() {
         List<MoteGroup> groups = MoteGroupPanel.getInstance().getGroups();
 
         for (MoteGroup group : groups) {
-            MobilityMote referencePoint = new MobilityMote(new BlankMote());
+            MobilityMote referencePoint = new BlankMote();
             referencePoint.moveTo(random.nextDouble() * 100, random.nextDouble()*100);
 
             groupReferencePoints.put(group, referencePoint);
