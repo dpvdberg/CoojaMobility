@@ -37,4 +37,8 @@ public class ReferencePointMobilityModelGUI {
     public IndividualMobilityModel getReferencePointMobilityModel() {
         return referencePointMobilityPanel.getActiveModel();
     }
+
+    public ReferencePointMobilityPanel getReferencePointMobilityPanel() {
+        return referencePointMobilityPanel;
+    }
 }
