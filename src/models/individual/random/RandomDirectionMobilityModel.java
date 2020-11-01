@@ -62,16 +62,29 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
         return ui.getMainPanel();
     }
 
+    private boolean isOutsideArea(MobilityMote mote) {
+        Position pos = mote.getPosition();
+        return pos.getXCoordinate() >= ui.getSimulationArea().getAreaLength() ||
+                pos.getYCoordinate() >= ui.getSimulationArea().getAreaWidth() ||
+                pos.getXCoordinate() <= 0 ||
+                pos.getYCoordinate() <= 0;
+    }
+
+    private void snapToArea(MobilityMote mote) {
+        double x = mote.getPosition().getXCoordinate();
+        double y = mote.getPosition().getYCoordinate();
+        double newX = x <= 0 ? 0 : Math.min(x, ui.getSimulationArea().getAreaLength());
+        double newY = y <= 0 ? 0 : Math.min(y, ui.getSimulationArea().getAreaWidth());
+        mote.moveTo(newX, newY);
+    }
+
     @Override
     protected void moveMote(MobilityMote mote) {
         RandomDirectionInfo info = moteInfo.get(mote);
         //if travelled distance is >= distance between previous and next position
         if (info.moving) {
-            Position current = mote.getPosition();
-            if (current.getXCoordinate() >= ui.getSimulationArea().getAreaLength() ||
-                    current.getYCoordinate() >= ui.getSimulationArea().getAreaWidth() ||
-                        current.getXCoordinate() <= 0 ||
-                            current.getYCoordinate() <= 0) {
+            if (isOutsideArea(mote)) {
+                snapToArea(mote);
                 //wait until pause time is over
                 info.moving = false;
                 info.moteUpdates = 0;

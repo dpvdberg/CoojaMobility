@@ -62,11 +62,14 @@
           <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <majorTickSpacing value="100"/>
-          <maximum value="1000"/>
+          <majorTickSpacing value="20"/>
+          <maximum value="201"/>
           <minimum value="1"/>
-          <minorTickSpacing value="10"/>
-          <value value="100"/>
+          <minorTickSpacing value="5"/>
+          <paintLabels value="false"/>
+          <paintTicks value="true"/>
+          <snapToTicks value="true"/>
+          <value value="101"/>
         </properties>
       </component>
       <component id="33396" class="javax.swing.JCheckBox" binding="chkStoreMovementHistory">

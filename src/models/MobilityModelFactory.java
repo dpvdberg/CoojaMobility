@@ -1,6 +1,6 @@
 package models;
 
-import models.group.referencePoint.ReferencePointMobilityModel;
+import models.group.referencePoint.NormalRPMobilityModel;
 import models.individual.IndividualMobilityModel;
 import models.individual.random.RandomDirectionMobilityModel;
 import models.individual.random.RandomWalkMobilityModel;
@@ -17,7 +17,7 @@ public class MobilityModelFactory {
                 add(new RandomWalkMobilityModel(simulation));
                 add(new RandomWaypointMobilityModel(simulation));
                 add(new RandomDirectionMobilityModel(simulation));
-                add(new ReferencePointMobilityModel(simulation));
+                add(new NormalRPMobilityModel(simulation));
             }
         };
     }

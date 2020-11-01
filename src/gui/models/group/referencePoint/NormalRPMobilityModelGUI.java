@@ -7,7 +7,7 @@ import org.contikios.cooja.Simulation;
 
 import javax.swing.*;
 
-public class ReferencePointMobilityModelGUI {
+public class NormalRPMobilityModelGUI {
     private JPanel mainPanel;
     private JPanel referencePointMobilityJPanel;
     private JSpinner minDeviationSpinner;
@@ -15,7 +15,7 @@ public class ReferencePointMobilityModelGUI {
 
     private ReferencePointMobilityPanel referencePointMobilityPanel;
 
-    public ReferencePointMobilityModelGUI(double minDeviation, double maxDeviation) {
+    public NormalRPMobilityModelGUI(double minDeviation, double maxDeviation) {
         referencePointMobilityPanel = new ReferencePointMobilityPanel();
 
         referencePointMobilityJPanel.add(referencePointMobilityPanel.getMainPanel());
