@@ -40,12 +40,6 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
     }
 
     @Override
-    public void setMotes(Collection<MobilityMote> motes) {
-        super.setMotes(motes);
-        initialize();
-    }
-
-    @Override
     public String getMobilityModelName() {
         return "Random Walk";
     }

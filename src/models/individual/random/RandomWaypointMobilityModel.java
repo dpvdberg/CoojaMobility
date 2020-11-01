@@ -37,12 +37,6 @@ public class RandomWaypointMobilityModel extends RandomIMobilityModel {
     }
 
     @Override
-    public void setMotes(Collection<MobilityMote> motes) {
-        super.setMotes(motes);
-        initialize();
-    }
-
-    @Override
     public void initialize() {
         for (MobilityMote mote : getMotes()) {
             RandomWaypointInfo info = new RandomWaypointInfo();

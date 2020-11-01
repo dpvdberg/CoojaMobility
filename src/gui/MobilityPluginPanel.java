@@ -23,10 +23,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MobilityPluginPanel {
@@ -41,6 +39,7 @@ public class MobilityPluginPanel {
     private JButton btnSaveImage;
     private MobilityModel activeModel;
     private boolean isStarted = false;
+    private List<MobilityModel> models;
 
     private TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
@@ -64,17 +63,17 @@ public class MobilityPluginPanel {
 
     private SimEventCentral.MoteCountListener nodeChangedObserver = new SimEventCentral.MoteCountListener() {
         public void moteWasAdded(Mote mote) {
-            if (activeModel == null) {
+            if (models == null) {
                 return;
             }
-            activeModel.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
+            models.forEach(m -> m.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList())));
             MoteGroupPanel.getInstance().refreshMotes();
         }
         public void moteWasRemoved(Mote mote) {
-            if (activeModel == null) {
+            if (models == null) {
                 return;
             }
-            activeModel.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
+            models.forEach(m -> m.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList())));
             MoteGroupPanel.getInstance().refreshMotes();
         }
     };
@@ -148,9 +147,11 @@ public class MobilityPluginPanel {
 
         updateIntervalSlider.addChangeListener(e -> activeModel.setPeriod(getPeriod()));
 
+        models = new ArrayList<>();
         modelComboBox.setModel(new DefaultComboBoxModel<>());
         for (MobilityModel model : MobilityModelFactory.buildModels(simulation)) {
             modelComboBox.addItem(model);
+            models.add(model);
         }
 
         btnStart.addActionListener(e -> start());

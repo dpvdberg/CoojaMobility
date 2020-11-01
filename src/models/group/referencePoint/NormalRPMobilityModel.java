@@ -21,6 +21,7 @@ public class NormalRPMobilityModel extends ReferencePointMobilityModel {
     public NormalRPMobilityModel(Simulation simulation) {
         super(simulation);
         createReferencePoints();
+        initialize();
 
         MoteGroupPanel.getInstance().addListener(this);
         ui.getReferencePointMobilityPanel().addListener(this);
