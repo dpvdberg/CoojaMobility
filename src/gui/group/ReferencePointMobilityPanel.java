@@ -15,6 +15,7 @@ public class ReferencePointMobilityPanel {
     private JComboBox RPModelComboBox;
     private JPanel mainPanel;
     private JPanel mobilityModelSettings;
+    private JButton btnShowGroups;
     private List<ReferencePointMobilityModelUpdateListener> listeners = new ArrayList<>();
 
     public JPanel getMainPanel() {
@@ -37,6 +38,9 @@ public class ReferencePointMobilityPanel {
                 mobilityModelSettings.add(activeModel.getModelSettingsComponent());
 
                 listeners.forEach(ReferencePointMobilityModelUpdateListener::referencePointMobilityModelUpdated);
+
+                mainPanel.revalidate();
+                mainPanel.repaint();
             }
         });
 
@@ -44,6 +48,8 @@ public class ReferencePointMobilityPanel {
         for (MobilityModel model : models) {
             RPModelComboBox.addItem(model);
         }
+
+        btnShowGroups.addActionListener(e -> MoteGroupPanel.showGroupPanel());
     }
 
     public IndividualMobilityModel getActiveModel() {

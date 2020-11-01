@@ -22,14 +22,14 @@ public class MobilityMote implements Mote {
         this.mote = mote;
     }
 
-    public void moveTo(Position position) {
+    public void moveTo(double x, double y, double z) {
         Position pos = mote.getInterfaces().getPosition();
-        pos.setCoordinates(position.getXCoordinate(), position.getYCoordinate(), position.getZCoordinate());
+        pos.setCoordinates(x, y, z);
     }
 
     public void moveTo(double x, double y) {
         Position pos = mote.getInterfaces().getPosition();
-        pos.setCoordinates(x, y, pos.getZCoordinate());
+        moveTo(x, y, pos.getZCoordinate());
     }
 
     public void translate(double x, double y) {

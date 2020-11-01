@@ -47,7 +47,7 @@ public class RandomWalkMobilityModel extends RandomIMobilityModel {
 
     @Override
     public String getMobilityModelName() {
-        return "Random walk";
+        return "Random Walk";
     }
 
     @Override

@@ -1,5 +1,7 @@
 package utils;
 
+import org.contikios.cooja.interfaces.Position;
+
 public class Vector {
     private double x;
     private double y;
@@ -7,6 +9,10 @@ public class Vector {
     public Vector(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector(Position position) {
+        this(position.getXCoordinate(), position.getYCoordinate());
     }
 
     public double getX() {

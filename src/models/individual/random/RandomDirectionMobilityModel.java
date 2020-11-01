@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RandomDirectionMobilityModel extends RandomIMobilityModel {
-    private final RandomDirectionMobilityModelGUI ui = new RandomDirectionMobilityModelGUI(100, 100, 5);
+    private final RandomDirectionMobilityModelGUI ui = new RandomDirectionMobilityModelGUI(1, 10, 5);
     private final HashMap<MobilityMote, RandomDirectionInfo> moteInfo = new HashMap<>();
     private static final double SECONDS = Math.pow(10, 6);
 

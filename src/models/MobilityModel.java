@@ -5,12 +5,13 @@ import org.apache.log4j.Logger;
 import org.contikios.cooja.Cooja;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.TimeEvent;
+import org.contikios.cooja.interfaces.Position;
 import utils.MobilityMote;
+import utils.Vector;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,8 @@ public abstract class MobilityModel {
     private long period;
     private Collection<MobilityMote> motes;
     private boolean registered = false;
+    private boolean storePositionHistory = false;
+    private HashMap<MobilityMote, List<Vector>> positionHistory;
 
     public MobilityModel(Simulation simulation) {
         this.simulation = simulation;
@@ -63,6 +66,14 @@ public abstract class MobilityModel {
             }
             simulation.scheduleEvent(this, simulation.getSimulationTime() + period);
 
+            if (storePositionHistory) {
+                motes.forEach(m -> {
+                    if (!positionHistory.containsKey(m)) {
+                        positionHistory.put(m, new ArrayList<>());
+                    }
+                    positionHistory.get(m).add(new Vector(m.getPosition()));
+                });
+            }
             step();
         }
     };
@@ -87,5 +98,12 @@ public abstract class MobilityModel {
 
     public String toString() {
         return getMobilityModelName();
+    }
+
+    public Map<MobilityMote, List<Vector>> setStorePositionHistory(boolean storePositionHistory) {
+        this.positionHistory = new HashMap<>();
+        this.storePositionHistory = storePositionHistory;
+
+        return this.positionHistory;
     }
 }

@@ -14,6 +14,7 @@ import java.awt.*;
 import java.beans.PropertyVetoException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @ClassDescription("Simulation Information")
@@ -37,6 +38,8 @@ public class MoteGroupPanel extends VisPlugin {
         groupPanel.hide();
 
         instance = groupPanel;
+
+        groupPanel.setSize(new Dimension(400, 300));
     }
 
     private final List<MobilityMote> motes;
@@ -122,6 +125,42 @@ public class MoteGroupPanel extends VisPlugin {
                     continue;
                 }
                 groups.remove(group);
+            }
+
+            updateUIGroups();
+        });
+
+        btnRandomize.addActionListener(e -> {
+            if (groups.size() <= 0) {
+                return;
+            }
+            groups.forEach(MoteGroup::clear);
+
+            List<MobilityMote> allMotes = new ArrayList<>(motes);
+            Collections.shuffle(allMotes);
+
+            LinkedList<MobilityMote> queue = new LinkedList<>(allMotes);
+
+            int motesPerGroup = (int) Math.ceil(allMotes.size() / (double) groups.size());
+            List<List<MobilityMote>> groupMotes = new ArrayList<>();
+            groupMotes.add(new ArrayList<>());
+
+            int groupIndex = 0;
+            int motesInGroup = 0;
+            while (!queue.isEmpty()) {
+                if (motesInGroup >= motesPerGroup) {
+                    groupMotes.add(new ArrayList<>());
+                    groupIndex++;
+                    motesInGroup = 0;
+                }
+                groupMotes.get(groupIndex).add(queue.remove());
+                motesInGroup++;
+            }
+
+            assert groups.size() == groupMotes.size();
+
+            for (int i = 0; i < groups.size(); i++) {
+                groups.get(i).addAll(groupMotes.get(i));
             }
 
             updateUIGroups();

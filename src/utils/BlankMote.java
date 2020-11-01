@@ -33,8 +33,8 @@ public class BlankMote extends MobilityMote {
     }
 
     @Override
-    public void moveTo(Position position) {
-        this.position.setCoordinates(position.getXCoordinate(), position.getYCoordinate(), position.getZCoordinate());
+    public void moveTo(double x, double y, double z) {
+        this.position.setCoordinates(x, y, z);
     }
 
     @Override

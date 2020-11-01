@@ -32,5 +32,7 @@ public class CoojaMobility extends VisPlugin {
         this.getContentPane().add(BorderLayout.CENTER, mainBox);
 
         instance = this;
+
+        this.setSize(new Dimension(600, 400));
     }
 }
