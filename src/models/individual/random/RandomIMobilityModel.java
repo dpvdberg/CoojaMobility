@@ -15,6 +15,4 @@ public abstract class RandomIMobilityModel extends IndividualMobilityModel {
     public RandomIMobilityModel() {
         super();
     }
-
-    public abstract void initialize();
 }

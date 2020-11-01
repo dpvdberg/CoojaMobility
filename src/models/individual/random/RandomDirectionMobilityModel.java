@@ -39,7 +39,6 @@ public class RandomDirectionMobilityModel extends RandomIMobilityModel {
     @Override
     public void setMotes(Collection<MobilityMote> motes) {
         super.setMotes(motes);
-        initialize();
     }
 
     @Override

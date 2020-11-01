@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @PluginType(PluginType.SIM_PLUGIN)
 public class MoteGroupPanel extends VisPlugin {
     private static MoteGroupPanel instance = null;
+    private final Simulation simulation;
 
     public static MoteGroupPanel getInstance() {
         return instance;
@@ -41,7 +42,7 @@ public class MoteGroupPanel extends VisPlugin {
         groupPanel.setSize(new Dimension(400, 300));
     }
 
-    private final List<MobilityMote> motes;
+    private List<MobilityMote> motes;
     private List<MoteGroup> groups = new ArrayList<>();
     Visualizer visualizer = null;
     private JPanel mainPanel;
@@ -56,6 +57,7 @@ public class MoteGroupPanel extends VisPlugin {
 
     public MoteGroupPanel(Simulation simulation, final Cooja cooja) {
         super("Mobility groups", cooja);
+        this.simulation = simulation;
 
         try {
             visualizer = (Visualizer) simulation.getCooja().getPlugin(Visualizer.class.getName());
@@ -63,7 +65,7 @@ public class MoteGroupPanel extends VisPlugin {
             System.out.println("Could not get visualizer for mote group dialog");
         }
 
-        motes = Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList());
+        refreshMotes();
 
         Box mainBox = Box.createVerticalBox();
         mainBox.add(mainPanel);
@@ -296,5 +298,10 @@ public class MoteGroupPanel extends VisPlugin {
         List<MoteGroup> g = new ArrayList<>(groups);
         g.add(initialGroup);
         return g;
+    }
+
+    public void refreshMotes() {
+        motes = Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList());
+        updateUIGroups();
     }
 }

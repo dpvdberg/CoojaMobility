@@ -22,6 +22,12 @@ public class NormalRPMobilityModel extends ReferencePointMobilityModel {
         super(simulation);
         createReferencePoints();
 
+        MoteGroupPanel.getInstance().addListener(this);
+        ui.getReferencePointMobilityPanel().addListener(this);
+    }
+
+    @Override
+    public void initialize() {
         for (MobilityMote mote : getMotes()) {
             double randomX = (random.nextBoolean() ? -1 : 1) *
                     MathUtils.linearInterpolate(ui.getMinDeviationSpinner(), ui.getMaxDeviationSpinner(), random.nextDouble());
@@ -30,9 +36,6 @@ public class NormalRPMobilityModel extends ReferencePointMobilityModel {
 
             deviation.put(mote, new Vector(randomX, randomY));
         }
-
-        MoteGroupPanel.getInstance().addListener(this);
-        ui.getReferencePointMobilityPanel().addListener(this);
     }
 
     @Override

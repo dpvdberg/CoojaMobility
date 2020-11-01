@@ -36,7 +36,10 @@ public abstract class MobilityModel {
 
     public void setMotes(Collection<MobilityMote> motes) {
         this.motes = motes;
+        initialize();
     }
+
+    public abstract void initialize();
 
     public abstract void step();
 

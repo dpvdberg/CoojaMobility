@@ -1,10 +1,15 @@
 package gui;
 
+import gui.group.MoteGroupPanel;
 import models.MobilityModel;
 import models.MobilityModelFactory;
+import org.contikios.cooja.Mote;
+import org.contikios.cooja.SimEventCentral;
 import org.contikios.cooja.Simulation;
+import org.contikios.cooja.interfaces.Position;
 import org.contikios.cooja.plugins.Visualizer;
 import utils.MobilityMote;
+import utils.MoteGroup;
 import utils.Vector;
 
 import javax.imageio.ImageIO;
@@ -18,9 +23,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MobilityPluginPanel {
     private final Simulation simulation;
@@ -54,8 +61,27 @@ public class MobilityPluginPanel {
         }
     }
 
+
+    private SimEventCentral.MoteCountListener nodeChangedObserver = new SimEventCentral.MoteCountListener() {
+        public void moteWasAdded(Mote mote) {
+            if (activeModel == null) {
+                return;
+            }
+            activeModel.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
+            MoteGroupPanel.getInstance().refreshMotes();
+        }
+        public void moteWasRemoved(Mote mote) {
+            if (activeModel == null) {
+                return;
+            }
+            activeModel.setMotes(Arrays.stream(simulation.getMotes()).map(MobilityMote::new).collect(Collectors.toList()));
+            MoteGroupPanel.getInstance().refreshMotes();
+        }
+    };
+
     private MobilityPluginPanel(Simulation simulation) {
         this.simulation = simulation;
+        simulation.getEventCentral().addMoteCountListener(nodeChangedObserver);
 
         modelComboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
