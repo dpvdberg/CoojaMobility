@@ -1,11 +1,9 @@
 package models;
 
-import gui.group.MoteGroupPanel;
 import org.apache.log4j.Logger;
 import org.contikios.cooja.Cooja;
 import org.contikios.cooja.Simulation;
 import org.contikios.cooja.TimeEvent;
-import org.contikios.cooja.interfaces.Position;
 import utils.MobilityMote;
 import utils.Vector;
 
@@ -21,6 +19,7 @@ public abstract class MobilityModel {
     private long period;
     private Collection<MobilityMote> motes;
     private boolean registered = false;
+    private boolean scheduled = false;
     private boolean storePositionHistory = false;
     private HashMap<MobilityMote, List<Vector>> positionHistory;
 
@@ -46,13 +45,18 @@ public abstract class MobilityModel {
     public void register() {
         if (simulation == null) {
             System.out.println("Cannot register a mobility model without simulation");
+            return;
         }
         if (registered) {
             JOptionPane.showMessageDialog(Cooja.getTopParentContainer(), "Mobility model already running.");
             return;
         }
         registered = true;
-        simulation.invokeSimulationThread(() -> simulation.scheduleEvent(stepEvent, simulation.getSimulationTime() + period));
+        simulation.invokeSimulationThread(() -> {
+            if (!scheduled) {
+                simulation.scheduleEvent(stepEvent, simulation.getSimulationTime() + period);
+            }
+        });
     }
 
     public void unregister() {
@@ -62,9 +66,11 @@ public abstract class MobilityModel {
     private final TimeEvent stepEvent = new TimeEvent(0) {
         public void execute(long t) {
             if (!registered) {
+                scheduled = false;
                 return;
             }
             simulation.scheduleEvent(this, simulation.getSimulationTime() + period);
+            scheduled = true;
 
             if (storePositionHistory) {
                 motes.forEach(m -> {

@@ -1,6 +1,5 @@
 package models.group.referencePoint;
 
-import gui.MobilityPluginPanel;
 import gui.group.MoteGroupPanel;
 import gui.group.MoteGroupUpdateListener;
 import gui.group.ReferencePointMobilityModelUpdateListener;
@@ -11,7 +10,6 @@ import utils.BlankMote;
 import utils.MobilityMote;
 import utils.MoteGroup;
 
-import java.sql.Ref;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;

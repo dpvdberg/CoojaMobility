@@ -9,8 +9,10 @@ import utils.MobilityMote;
 import utils.Vector;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ClassDescription("Position history")
 public class MoteMovementHistorySkin implements VisualizerSkin {
@@ -41,13 +43,32 @@ public class MoteMovementHistorySkin implements VisualizerSkin {
 
     }
 
+    public Color[] generateColors(int n)
+    {
+        Color[] cols = new Color[n];
+        for(int i = 0; i < n; i++)
+        {
+            cols[i] = Color.getHSBColor((float) i / (float) n, 0.85f, 0.8f);
+        }
+        return cols;
+    }
+
     @Override
     public void paintAfterMotes(Graphics graphics) {
         if (active) {
-            for (List<Vector> positions : mobilityHistoryMap.values()) {
-                for (int i = 0; i < positions.size() - 1; i++) {
-                    Point start = visualizer.transformPositionToPixel(positions.get(i).getX(), positions.get(i).getY(), 0);
-                    Point stop = visualizer.transformPositionToPixel(positions.get(i+1).getX(), positions.get(i+1).getY(), 0);
+            Color[] colors = generateColors(mobilityHistoryMap.size());
+            List<List<Vector>> positionHistory = mobilityHistoryMap.keySet()
+                    .stream().sorted(Comparator.comparingInt(MobilityMote::getID))
+                    .map(m -> mobilityHistoryMap.get(m))
+                    .collect(Collectors.toList());
+
+            for (int i = 0; i < positionHistory.size(); i++) {
+                List<Vector> positions = positionHistory.get(i);
+
+                for (int j = 0; j < positions.size() - 1; j++) {
+                    Point start = visualizer.transformPositionToPixel(positions.get(j).getX(), positions.get(j).getY(), 0);
+                    Point stop = visualizer.transformPositionToPixel(positions.get(j+1).getX(), positions.get(j+1).getY(), 0);
+                    graphics.setColor(colors[i]);
                     graphics.drawLine(start.x, start.y, stop.x, stop.y);
                 }
             }

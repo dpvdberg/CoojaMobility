@@ -14,10 +14,9 @@ import java.awt.*;
 import java.beans.PropertyVetoException;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@ClassDescription("Simulation Information")
+@ClassDescription("Mobility group panel")
 @PluginType(PluginType.SIM_PLUGIN)
 public class MoteGroupPanel extends VisPlugin {
     private static MoteGroupPanel instance = null;

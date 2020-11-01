@@ -1,7 +1,5 @@
 package gui.models.individual.random;
 
-import gui.group.MoteGroupPanel;
-
 import javax.swing.*;
 
 public class RandomWalkMobilityModelGUI {

@@ -6,7 +6,6 @@ import models.individual.IndividualMobilityModel;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -9,7 +9,7 @@ package "Cooja" #DDDDDD {
 
 package "CoojaMobility" {
     class MobilityPlugin
-    abstract models.MobilityModel {
+    abstract MobilityModel {
         Simulation simulation
         void step()
     }
@@ -29,13 +29,13 @@ package "CoojaMobility" {
     }
 
     VisPlugin <|-- MobilityPlugin
-    Simulation "1" <-- models.MobilityModel
-    Mote ... models.MobilityModel
+    Simulation "1" <-- MobilityModel
+    Mote ... MobilityModel
 
-    MobilityPlugin --> "*" models.MobilityModel
-    models.MobilityModel <|-- GroupMobilityModel
-    models.MobilityModel <|-- IndividualMobilityModel
-    models.MobilityModel <|-- DivisionMobilityModel
+    MobilityPlugin --> "*" MobilityModel
+    MobilityModel <|-- GroupMobilityModel
+    MobilityModel <|-- IndividualMobilityModel
+    MobilityModel <|-- DivisionMobilityModel
 
     ' INDIVIDUAL MOBILITY MODELS
     IndividualMobilityModel <|-- RandomIMobilityModel
